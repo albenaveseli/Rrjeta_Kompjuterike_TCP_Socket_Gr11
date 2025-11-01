@@ -1,0 +1,13 @@
+{
+  "name": "network-server",
+  "version": "1.0.0",
+  "description": "TCP Server for Computer Network Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["tcp", "server", "networking"],
+  "author": "Your Team",
+  "license": "MIT"
+}
