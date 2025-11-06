@@ -53,4 +53,51 @@ class TrafficMonitor {
       client.bytesSent += messageSize;
     }
     this.stats.traffic.sent += messageSize;
-  }}
+  }
+
+  getStats() {
+    const uptime = Date.now() - this.stats.startTime.getTime();
+    const activeClients = Array.from(this.stats.clients.entries())
+      .filter(([_, client]) => this.stats.clients.has(_))
+      .map(([id, client]) => ({
+        id,
+        ip: client.ip,
+        messages: client.messagesReceived,
+        bytesReceived: client.bytesReceived,
+        bytesSent: client.bytesSent,
+        connectedSince: client.connectedAt
+      }));
+
+    return {
+      ...this.stats,
+      activeClients,
+      uptime: this.formatUptime(uptime)
+    };
+  }
+
+  formatUptime(ms) {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    return `${days}d ${hours % 24}h ${minutes % 60}m ${seconds % 60}s`;
+  }
+
+  async saveStatsToFile() {
+    const stats = this.getStats();
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      ...stats
+    };
+
+    try {
+      const logPath = path.join(__dirname, '../logs/server_stats.txt');
+      await fs.appendFile(logPath, JSON.stringify(logEntry) + '\n');
+    } catch (error) {
+      console.error('Error saving stats to file:', error);
+    }
+  }
+}
+
+module.exports = TrafficMonitor;
