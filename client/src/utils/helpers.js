@@ -1,14 +1,14 @@
-const fs = require('fs').promises;
-const path = require('path');
-
 class Helpers {
-  static async fileExists(filePath) {
-    try {
-      await fs.access(filePath);
-      return true;
-    } catch {
-      return false;
+  static formatFileList(files) {
+    if (!files || files.length === 0) {
+      return 'No files found.';
     }
+
+    return files.map(file => {
+      const type = file.type === 'directory' ? '[DIR]' : '[FILE]';
+      const size = file.type === 'directory' ? '' : ` (${this.formatBytes(file.size)})`;
+      return `${type} ${file.name}${size}`;
+    }).join('\n');
   }
 
   static formatBytes(bytes) {
@@ -17,21 +17,4 @@ class Helpers {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  }
-
-  static getFileInfo(stats) {
-    return {
-      size: stats.size,
-      created: stats.birthtime,
-      modified: stats.mtime,
-      isDirectory: stats.isDirectory()
-    };
-  }
-
-  static validateFileName(filename) {
-    const forbiddenPatterns = /\.\.|\/|\\/;
-    return !forbiddenPatterns.test(filename);
-  }
-}
-
-module.exports = Helpers;
+  }}
