@@ -34,6 +34,7 @@ The application is split into three main components, each with distinct capabili
 * **Real-time Response:** Receives real-time responses and broadcasted server messages.
 
 ## 🧩 Project Structure
+```bash
 Rrjeta_Kompjuterike_TCP_Socket_Gr11/
 │
 ├── server/
@@ -52,7 +53,7 @@ Rrjeta_Kompjuterike_TCP_Socket_Gr11/
 │
 ├── package.json
 └── README.md
-
+```
 
 ---
 
@@ -101,6 +102,7 @@ cd client
 npm run admin
 ```
 After running these commands, CLI will show options that us as users can run.
+
 
 
 
