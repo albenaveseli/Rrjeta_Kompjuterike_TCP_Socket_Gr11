@@ -1,9 +1,10 @@
 {
   "server": {
     "port": 8080,
-    "host": "0.0.0.0",
+    "host": "localhost",
     "maxConnections": 10,
     "connectionTimeout": 30000,
+    "adminTimeout": 20000,
     "monitorInterval": 5000
   },
   "files": {
@@ -11,6 +12,6 @@
     "maxFileSize": 10485760
   },
   "admin": {
-    "allowedIPs": ["192.168.1.100", "127.0.0.1"]
+    "allowedIPs": ["192.168.1.100", "127.0.0.1","::1"]
   }
 }
