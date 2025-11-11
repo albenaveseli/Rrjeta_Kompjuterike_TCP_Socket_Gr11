@@ -23,7 +23,7 @@ client.connect()
   .catch(error => {
     console.error('Failed to connect to server:', error.message);
     console.log('Retrying connection...');
-    
+
     // Auto-retry connection
     const retryInterval = setInterval(() => {
       client.connect()
