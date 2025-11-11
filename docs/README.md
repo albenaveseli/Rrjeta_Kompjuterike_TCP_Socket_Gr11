@@ -36,23 +36,37 @@ The application is split into three main components, each with distinct capabili
 ## 🧩 Project Structure
 ```bash
 Rrjeta_Kompjuterike_TCP_Socket_Gr11/
+│📦 
 │
-├── server/
-│ ├── index.js
-│ ├── handlers/
-│ ├── utils/
-│ ├── services/
-│ └── config.json
+├── 📁 client
+│   ├── 📁 config.json
+│   ├── 📁 src
+│   │   ├── 📁 utils              # Helper utilities
+│   │   │    └── helpers.js
+│   │   ├── AdminClient.js
+│   │   └── UserClient.js
+│   ├
+│   └── package.json
+│   ├── Client.js
 │
-├── client/
-│ ├── src/
-│ │ ├── Client.js
-│ │ ├── AdminClient.js
-│ │ └── UserClient.js
-│ └── index.js
+├── 📁 server            
+│   ├── 📁 handlers           # Request/command handlers
+│   │   └── (multiple handler modules)
+│   ├── 📁 services           # FileManager, TrafficMonitor, Config loader
+│   │   ├── FileManager.js
+│   │   ├── TrafficMonitor.js
+│   │   └── Config.js
+│   ├── 📁 utils              # Helper utilities
+│   │   └── helpers.js
+│   ├── config.json
+│   └── package.json (optional)
 │
-├── package.json
+├── 📁 docs                   # Documentation folder
+│   └── description.txt
+│
+├── package.json              # Root package settings
 └── README.md
+
 ```
 
 ---
