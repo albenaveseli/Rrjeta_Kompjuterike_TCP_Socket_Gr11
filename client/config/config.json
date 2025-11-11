@@ -1,0 +1,13 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "reconnect": true,
+    "reconnectDelay": 5000,
+    "timeout": 30000
+  },
+  "client": {
+    "type": "admin",
+    "name": "Client-1"
+  }
+}
