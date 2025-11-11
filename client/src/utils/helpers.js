@@ -55,16 +55,16 @@ File Information:
         const path = require("path");
         const os = require("os");
 
-        // Gjej direktorinë "Downloads" të kompjuterit
+       
         const downloadsPath = path.join(os.homedir(), "Downloads");
 
-        // Merr emrin e skedarit nga serveri
+       
         const filename = response.data?.stats?.name || "downloaded_file.txt";
 
-        // Cakto path-in e plotë ku do të ruhet
+       
         const savePath = path.join(downloadsPath, filename);
 
-        // Ruaje përmbajtjen në atë path
+        
         fs.writeFileSync(savePath, response.data.content, "utf8");
 
         console.log(`\n✅ File downloaded and saved to: ${savePath}`);

@@ -59,8 +59,8 @@ class ClientHandler {
     if (this.timeout) clearTimeout(this.timeout);
 
     const timeoutDuration = this.isAdmin
-      ? this.config.server.adminTimeout || 5000 // 5 sekonda për admin
-      : this.config.server.connectionTimeout; // 30 sekonda për read-only
+      ? this.config.server.adminTimeout || 5000
+      : this.config.server.connectionTimeout;
 
     this.timeout = setTimeout(() => {
       if (this.isConnected) {
@@ -76,7 +76,7 @@ class ClientHandler {
       this.trafficMonitor.messageReceived(this.clientId, data.length);
       console.log(`Received from ${this.clientId}: ${message}`);
 
-      // ✅ Detect JSON payload (used for file upload)
+     
       if (message.startsWith("{") && message.endsWith("}")) {
         const parsed = JSON.parse(message);
         if (parsed.command === "/upload") {
@@ -127,7 +127,7 @@ class ClientHandler {
           await this.handleRead(args);
           break;
         case "/upload":
-          // Legacy mode (manual content typing)
+         
           await this.handleUploadLegacy(args, command);
           break;
         case "/download":
@@ -162,7 +162,7 @@ class ClientHandler {
     this.sendResponse("READ_RESPONSE", result);
   }
 
-  // ✅ Handles upload from JSON (new version)
+
   async handleUploadJSON(payload) {
     try {
       const { filename, content } = payload;
@@ -188,7 +188,7 @@ class ClientHandler {
     }
   }
 
-  // ⚙️ Optional: Legacy mode (text content directly from /upload <filename> <content>)
+
   async handleUploadLegacy(args, fullCommand) {
     if (args.length < 2) {
       throw new Error("Usage: /upload <filename> <content>");

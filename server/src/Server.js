@@ -58,7 +58,7 @@ class Server {
     this.monitorInterval = setInterval(async () => {
       await this.trafficMonitor.saveStatsToFile();
       
-      // Log current stats to console every 30 seconds
+   
       if (Date.now() % 30000 < 5000) {
         this.logCurrentStats();
       }
@@ -82,7 +82,7 @@ class Server {
       clearInterval(this.monitorInterval);
     }
 
-    // Close all client connections
+    
     for (const clientHandler of this.clients.values()) {
       clientHandler.socket.destroy();
     }

@@ -74,7 +74,6 @@ class Client {
       
       setTimeout(() => {
         this.connect().catch(() => {
-          // Reconnection will be attempted again in next interval
         });
       }, this.config.server.reconnectDelay);
     } else if (this.rl) {
@@ -124,10 +123,10 @@ class Client {
       return;
     }
 
-    // ✅ Handle /upload "path/to/file"
+   
     if (input.startsWith('/upload')) {
       try {
-        // Match optional quotes around path
+       
         const match = input.match(/^\/upload\s+"?([^"]+)"?$/);
         if (!match) {
           console.log('Usage: /upload "C:\\path\\to\\file.txt"');
@@ -144,11 +143,11 @@ class Client {
           return;
         }
 
-        // Read file content (binary-safe)
+     
         const fileBuffer = fs.readFileSync(localFilePath);
         const base64Content = fileBuffer.toString('base64');
 
-        // Send structured JSON message to server
+       
         const payload = JSON.stringify({
           command: '/upload',
           filename,
@@ -165,7 +164,7 @@ class Client {
       return;
     }
 
-    // ✅ Normal text or other commands
+   
     this.socket.write(input + '\n');
     this.prompt();
   }

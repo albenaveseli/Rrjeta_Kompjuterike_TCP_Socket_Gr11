@@ -2,7 +2,7 @@ const AdminClient = require('./src/AdminClient');
 const ReadOnlyClient = require('./src/ReadOnlyClient');
 const config = require('./config/config.json');
 
-// Get client type from command line or use config
+
 const clientType = process.argv[2] || config.client.type;
 
 let client;
@@ -15,7 +15,7 @@ if (clientType.toLowerCase() === 'admin') {
   console.log('Starting Read-Only Client...');
 }
 
-// Connect to server and start interactive mode
+
 client.connect()
   .then(() => {
     client.startInteractive();
@@ -24,7 +24,7 @@ client.connect()
     console.error('Failed to connect to server:', error.message);
     console.log('Retrying connection...');
 
-    // Auto-retry connection
+
     const retryInterval = setInterval(() => {
       client.connect()
         .then(() => {
