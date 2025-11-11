@@ -1,4 +1,4 @@
-# 🌐 Rrjeta Kompjuterike TCP Socket - Grupi 11
+#  Rrjeta Kompjuterike TCP Socket - Grupi 11
 
 ## A Node.js TCP Client–Server Application
 
@@ -8,11 +8,11 @@ Developed as coursework for a **Computer Networks** (*Rrjeta Kompjuterike*) subj
 
 ---
 
-## ✨ Features
+##  Features
 
 The application is split into three main components, each with distinct capabilities:
 
-### ✅ Server
+###  Server
 
 * **Connection Handling:** Listens for and manages multiple incoming TCP connections.
 * **User Differentiation:** Differentiates **Admin** users based on whitelisted IP addresses (configurable in `server/config.json`).
@@ -22,12 +22,12 @@ The application is split into three main components, each with distinct capabili
 * **Traffic Monitoring:** Tracks and reports incoming and outgoing data traffic per client.
 * **Control:** Handles client timeouts and supports forced disconnects.
 
-### 💻 Admin Client
+### Admin Client
 
 * **Elevated Access:** Automatically granted admin privileges upon connection if the IP is whitelisted.
 * **File Upload/Download   - Read/Message:** Using commands: /uploadfile <path> <filename>    /download <filename> etc...
 
-### 👤 Standard Client
+### Standard Client
 
 * **Basic Communication:** Sends regular messages to the server.
 * **Limited Permissions:** Operates with read-only or limited execution privileges.
@@ -71,7 +71,7 @@ Rrjeta_Kompjuterike_TCP_Socket_Gr11/
 
 ---
 
-## 🛠️ Installation
+##  Installation
 
 ### Prerequisites
 
@@ -92,7 +92,7 @@ Rrjeta_Kompjuterike_TCP_Socket_Gr11/
 
 ---
 
-## ▶️ Usage
+##  Usage
 
 ### 1. Running the Server and Client
 
@@ -116,6 +116,7 @@ cd client
 npm run admin
 ```
 After running these commands, CLI will show options that us as users can run.
+
 
 
 
