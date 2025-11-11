@@ -1,5 +1,7 @@
 const net = require('net');
 const readline = require('readline');
+const fs = require('fs');
+const path = require('path');
 const Helpers = require('./utils/helpers');
 
 class Client {
@@ -104,7 +106,7 @@ class Client {
     });
   }
 
-  handleInput(input) {
+  async handleInput(input) {
     if (!input) {
       this.prompt();
       return;
@@ -116,12 +118,56 @@ class Client {
       return;
     }
 
-    if (this.isConnected) {
-      this.socket.write(input + '\n');
-    } else {
+    if (!this.isConnected) {
       console.log('Not connected to server. Please wait for reconnection...');
       this.prompt();
+      return;
     }
+
+    // ✅ Handle /upload "path/to/file"
+    if (input.startsWith('/upload')) {
+      try {
+        // Match optional quotes around path
+        const match = input.match(/^\/upload\s+"?([^"]+)"?$/);
+        if (!match) {
+          console.log('Usage: /upload "C:\\path\\to\\file.txt"');
+          this.prompt();
+          return;
+        }
+
+        const localFilePath = match[1];
+        const filename = path.basename(localFilePath);
+
+        if (!fs.existsSync(localFilePath)) {
+          console.log('File not found:', localFilePath);
+          this.prompt();
+          return;
+        }
+
+        // Read file content (binary-safe)
+        const fileBuffer = fs.readFileSync(localFilePath);
+        const base64Content = fileBuffer.toString('base64');
+
+        // Send structured JSON message to server
+        const payload = JSON.stringify({
+          command: '/upload',
+          filename,
+          content: base64Content
+        });
+
+        this.socket.write(payload + '\n');
+        console.log(`Uploading '${filename}' from ${localFilePath}...`);
+      } catch (err) {
+        console.error('Upload failed:', err.message);
+      }
+
+      this.prompt();
+      return;
+    }
+
+    // ✅ Normal text or other commands
+    this.socket.write(input + '\n');
+    this.prompt();
   }
 
   prompt() {
@@ -134,23 +180,23 @@ class Client {
     console.log(`
 Available commands:
   General:
-    <message>          - Send a text message to server
-    STATS              - Get server statistics
-    quit/exit          - Disconnect from server
+    <message>           - Send a text message to server
+    STATS               - Get server statistics
+    quit/exit           - Disconnect from server
 
   File operations (Admin only):
-    /list [path]       - List files in directory
-    /read <filename>   - Read file content
-    /upload <filename> <content> - Upload file to server
+    /list [path]        - List files in directory
+    /read <filename>    - Read file content
+    /upload "<path>"    - Upload existing local file to the server
     /download <filename> - Download file from server
-    /delete <filename> - Delete file from server
-    /search <keyword>  - Search for files
-    /info <filename>   - Get file information
+    /delete <filename>  - Delete file from server
+    /search <keyword>   - Search for files
+    /info <filename>    - Get file information
 
 Examples:
   /list
   /read example.txt
-  /upload test.txt This is test content
+  /upload "C:\\Users\\Admin\\Desktop\\Tasks.txt"
   /search document
   /info example.txt
     `.trim());
@@ -169,8 +215,6 @@ Examples:
 
       const responseHandler = (data) => {
         clearTimeout(timeout);
-        // For non-interactive mode, we would need to handle responses differently
-        // This is simplified for the example
         resolve(data.toString());
       };
 
