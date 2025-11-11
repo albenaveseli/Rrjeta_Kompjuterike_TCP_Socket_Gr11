@@ -1,165 +1,111 @@
-Rrjeta Kompjuterike TCP Socket — Grupi 11
+# 🌐 Rrjeta Kompjuterike TCP Socket - Grupi 11
 
-A Node.js TCP Client–Server Application
+## A Node.js TCP Client–Server Application
 
-This project implements a full TCP communication system using Node.js core net sockets.
-It includes an Admin Client, a Standard Client, and a Server capable of handling commands, monitoring traffic, uploading files, and managing connected users.
+This project implements a complete **TCP communication system** using **Node.js** core `net` sockets. It features a robust server capable of handling multiple connections, differentiating between standard and administrative clients, executing commands, monitoring traffic, and managing file transfers.
 
-The project was developed as coursework for Rrjeta Kompjuterike and demonstrates practical client–server interactions at the socket level.
+Developed as coursework for a **Computer Networks** (*Rrjeta Kompjuterike*) subject, this application demonstrates practical client–server interactions at the TCP socket level.
 
-🚀 Features
-✅ Server
+---
 
-Listens for incoming TCP connections
+## ✨ Features
 
-Differentiates Admin users by IP
+The application is split into three main components, each with distinct capabilities:
 
-Logs connection activity
+### ✅ Server
 
-Receives commands and data
+* **Connection Handling:** Listens for and manages multiple incoming TCP connections.
+* **User Differentiation:** Differentiates **Admin** users based on whitelisted IP addresses (configurable in `server/config.json`).
+* **Activity Logging:** Logs all connection, disconnection, and command execution activities.
+* **Data Services:** Supports receiving various commands and data payloads.
+* **File Transfer:** Implements reliable file upload functionality.
+* **Traffic Monitoring:** Tracks and reports incoming and outgoing data traffic per client.
+* **Control:** Handles client timeouts and supports forced disconnects.
 
-Supports file transfers
+### 💻 Admin Client
 
-Tracks traffic per client
+* **Elevated Access:** Automatically granted admin privileges upon connection if the IP is whitelisted.
+* **File Upload/Download   - Read/Message:** Using commands: /uploadfile <path> <filename>    /download <filename> etc...
 
-Handles timeouts and forced disconnects
+### 👤 Standard Client
 
-Modular structure (Handlers, Services, Utils)
+* **Basic Communication:** Sends regular messages to the server.
+* **Limited Permissions:** Operates with read-only or limited execution privileges.
+* **Real-time Response:** Receives real-time responses and broadcasted server messages.
 
-✅ Admin Client
-
-Can upload files directly to the server
-
-Has access to admin-level commands
-
-Can inspect traffic logs
-
-Receives server responses in real-time
-
-✅ Standard Client
-
-Read-only or limited permissions
-
-Sends regular messages
-
-Receives broadcasted server responses
-
-🧩 Project Structure
+## 🧩 Project Structure
 Rrjeta_Kompjuterike_TCP_Socket_Gr11/
 │
 ├── server/
-│   ├── index.js              # Entry point for server
-│   ├── handlers/             # Socket handlers
-│   ├── utils/                # Helper utilities
-│   ├── services/             # File manager, traffic monitor, config loader
-│   └── config.json           # Settings (ports, admin IPs)
+│ ├── index.js
+│ ├── handlers/
+│ ├── utils/
+│ ├── services/
+│ └── config.json
 │
 ├── client/
-│   ├── src/
-│   │   ├── Client.js         # Base client instance
-│   │   ├── AdminClient.js    # Admin client with file upload
-│   │   └── UserClient.js     # Standard user client
-│   └── index.js              # Entry point for client
+│ ├── src/
+│ │ ├── Client.js
+│ │ ├── AdminClient.js
+│ │ └── UserClient.js
+│ └── index.js
 │
 ├── package.json
 └── README.md
 
 
-(Folder names may vary depending on your exact structure, but this format reflects common Node TCP architecture.)
+---
 
-🛠️ Installation
+## 🛠️ Installation
 
-Make sure you have Node.js (v16+) installed.
+### Prerequisites
 
-git clone https://github.com/<your-username>/Rrjeta_Kompjuterike_TCP_Socket_Gr11.git
-cd Rrjeta_Kompjuterike_TCP_Socket_Gr11
-npm install
+* **Node.js** (v16 or higher recommended)
 
-▶️ Running the Server
+### Setup Steps
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/albenaveseli/Rrjeta_Kompjuterike_TCP_Socket_Gr11.git](https://github.com/albenaveseli/Rrjeta_Kompjuterike_TCP_Socket_Gr11.git)
+    cd Rrjeta_Kompjuterike_TCP_Socket_Gr11
+    ```
+
+2.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+
+---
+
+## ▶️ Usage
+
+### 1. Running the Server and Client
+
+Start the server from the root directory:
+
+```bash
 cd server
-node index.js
+npm start server
+```
 
+Start the client from the root directory:
 
-If the server starts successfully, you'll see something like:
-
-Server listening on port 3000...
-
-▶️ Running the Client
-Standard Client:
+```bash
+//Client side
 cd client
-node index.js
+npm run client
 
-Admin Client:
+
+//Client as admin
 cd client
-node index.js --admin
+npm run admin
+```
+After running these commands, CLI will show options that us as users can run.
 
 
-(Depending on your implementation, the flag may vary. Adjust text as needed.)
-
-📡 General Command Examples
-
-Inside the client terminal:
-
-Command	Description
-echo <text>	Sends a message to the server
-/uploadfile path/to/file name	Admin command to upload a file
-/traffic	Shows traffic details
-/exit	Disconnect from the server
-📂 File Upload Example
-
-Admin user runs:
-
-/uploadfile C:\Users\User\Desktop\Tasks.txt Tasks.txt
 
 
-The server will receive the file, process it, and notify the admin.
-
-👥 Admin Privileges
-
-Admins are detected using the IP list inside:
-
-server/config.json
 
 
-For example:
-
-{
-  "admin": {
-    "allowedIPs": ["127.0.0.1"]
-  }
-}
 
 
-Any client connecting from these IPs becomes an Admin Client.
-
-🧠 Tech Used
-
-Node.js
-
-net TCP sockets
-
-readline interface
-
-File streams
-
-Buffer processing
-
-Custom packet handling
-
-🛤️ Future Improvements
-
-Add encryption (AES or RSA)
-
-Add authentication per user
-
-Implement GUI client
-
-Store logs in a database
-
-Add chat-room channels
-
-👨‍💻 Authors
-
-Grupi 11 – Rrjeta Kompjuterike
-
-If you'd like, I can add a Contributors section with names and roles
