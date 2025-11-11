@@ -1,169 +1,165 @@
-About the Project
+Rrjeta Kompjuterike TCP Socket — Grupi 11
 
-This repository demonstrates a complete TCP communication workflow:
+A Node.js TCP Client–Server Application
 
-✅ Server listens on a TCP port
-✅ Multiple clients can connect
-✅ Clients send commands/messages
-✅ Server processes, responds, and logs activity
-✅ Built using Node.js' built-in net module
-✅ Clean folder structure (client / server separation)
+This project implements a full TCP communication system using Node.js core net sockets.
+It includes an Admin Client, a Standard Client, and a Server capable of handling commands, monitoring traffic, uploading files, and managing connected users.
 
-It’s a hands-on implementation of networking concepts including:
+The project was developed as coursework for Rrjeta Kompjuterike and demonstrates practical client–server interactions at the socket level.
 
-TCP socket creation
-
-Request–response handling
-
-Message parsing
-
-Connection lifecycle management
-
-Error handling
-
-Modular architecture
-
-🧩 Features
+🚀 Features
 ✅ Server
 
-Accepts multiple client connections
+Listens for incoming TCP connections
 
-Logs connection details (IP, port, status)
+Differentiates Admin users by IP
 
-Handles messages & commands
+Logs connection activity
 
-Gracefully handles disconnects & errors
+Receives commands and data
 
-✅ Client
+Supports file transfers
 
-Connects via TCP to the server
+Tracks traffic per client
 
-Sends messages from terminal
+Handles timeouts and forced disconnects
 
-Receives server responses immediately
+Modular structure (Handlers, Services, Utils)
 
-Simple interactive interface
+✅ Admin Client
 
-✅ Code Architecture
+Can upload files directly to the server
 
-/server contains all server logic
+Has access to admin-level commands
 
-/client contains client functionality
+Can inspect traffic logs
 
-Modular utilities for readability
+Receives server responses in real-time
 
-Extendable protocol design
+✅ Standard Client
 
-🛠️ Technologies Used
-Tech	Purpose
-Node.js	Runtime environment
-net module	TCP socket programming
-npm scripts	Running server/client
-JavaScript (ES6)	Application logic
-📂 Project Structure
+Read-only or limited permissions
+
+Sends regular messages
+
+Receives broadcasted server responses
+
+🧩 Project Structure
 Rrjeta_Kompjuterike_TCP_Socket_Gr11/
 │
-├── client/                   # Client-side TCP logic  
-│   ├── client.js             # Main client entry  
-│   └── modules/              # Helpers (if included)
+├── server/
+│   ├── index.js              # Entry point for server
+│   ├── handlers/             # Socket handlers
+│   ├── utils/                # Helper utilities
+│   ├── services/             # File manager, traffic monitor, config loader
+│   └── config.json           # Settings (ports, admin IPs)
 │
-├── server/                   # Server-side TCP logic  
-│   ├── server.js             # Main server entry  
-│   └── modules/              # Handlers, utilities
-│
-├── docs/                     # Documentation & diagrams (optional)
+├── client/
+│   ├── src/
+│   │   ├── Client.js         # Base client instance
+│   │   ├── AdminClient.js    # Admin client with file upload
+│   │   └── UserClient.js     # Standard user client
+│   └── index.js              # Entry point for client
 │
 ├── package.json
-├── README.md                 # This file
-└── .gitignore
+└── README.md
 
-🚀 Getting Started
-✅ Prerequisites
 
-Before running the project, make sure you have:
+(Folder names may vary depending on your exact structure, but this format reflects common Node TCP architecture.)
 
-Node.js (v14 or newer)
+🛠️ Installation
 
-A terminal/console
+Make sure you have Node.js (v16+) installed.
 
-Git (optional)
-
-✅ Installation
-
-Clone the repository:
-
-git clone https://github.com/albenaveseli/Rrjeta_Kompjuterike_TCP_Socket_Gr11
+git clone https://github.com/<your-username>/Rrjeta_Kompjuterike_TCP_Socket_Gr11.git
 cd Rrjeta_Kompjuterike_TCP_Socket_Gr11
+npm install
 
 ▶️ Running the Server
 cd server
-node server.js
+node index.js
 
 
-📌 The server will start listening on the configured port
-(usually something like 8080 or 5000 — check your code).
+If the server starts successfully, you'll see something like:
+
+Server listening on port 3000...
 
 ▶️ Running the Client
-
-Open a second terminal window:
-
+Standard Client:
 cd client
-node client.js
+node index.js
+
+Admin Client:
+cd client
+node index.js --admin
 
 
-Once connected, you can:
+(Depending on your implementation, the flag may vary. Adjust text as needed.)
 
-Type messages
+📡 General Command Examples
 
-Trigger commands
+Inside the client terminal:
 
-Observe server responses
+Command	Description
+echo <text>	Sends a message to the server
+/uploadfile path/to/file name	Admin command to upload a file
+/traffic	Shows traffic details
+/exit	Disconnect from the server
+📂 File Upload Example
 
-💬 Example Interaction
-Client: Hello Server!
-Server: Echo: Hello Server!
+Admin user runs:
 
-Client: /info
-Server: Connected as 192.168.0.12:53422
-
-
-(Add more examples based on your implemented protocol.)
-
-🧪 Recommended Extensions
-
-If you want to expand this project, here are ideas:
-
-Add authentication
-
-Add custom TCP protocol commands
-
-Implement file transfers
-
-Add admin mode
-
-Log activity to database or files
-
-Build a GUI client
-
-🙋‍♂️ Authors – Group 11
-
-Albena Veseli
-
-Bardhi Tahiri
-
-Drin Kurti
-
-Mehmet Mehmeti
+/uploadfile C:\Users\User\Desktop\Tasks.txt Tasks.txt
 
 
-📜 License
+The server will receive the file, process it, and notify the admin.
 
-This project is released under the MIT License.
-Feel free to learn from it, modify it, and improve it.
+👥 Admin Privileges
 
-⭐ Show Support
+Admins are detected using the IP list inside:
 
-If this project helped you or your group:
+server/config.json
 
-➡️ Give the repo a ⭐ on GitHub
-➡️ Share your project with classmates
+
+For example:
+
+{
+  "admin": {
+    "allowedIPs": ["127.0.0.1"]
+  }
+}
+
+
+Any client connecting from these IPs becomes an Admin Client.
+
+🧠 Tech Used
+
+Node.js
+
+net TCP sockets
+
+readline interface
+
+File streams
+
+Buffer processing
+
+Custom packet handling
+
+🛤️ Future Improvements
+
+Add encryption (AES or RSA)
+
+Add authentication per user
+
+Implement GUI client
+
+Store logs in a database
+
+Add chat-room channels
+
+👨‍💻 Authors
+
+Grupi 11 – Rrjeta Kompjuterike
+
+If you'd like, I can add a Contributors section with names and roles
