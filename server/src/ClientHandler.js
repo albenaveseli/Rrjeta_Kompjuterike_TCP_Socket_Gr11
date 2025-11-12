@@ -76,7 +76,6 @@ class ClientHandler {
       this.trafficMonitor.messageReceived(this.clientId, data.length);
       console.log(`Received from ${this.clientId}: ${message}`);
 
-     
       if (message.startsWith("{") && message.endsWith("}")) {
         const parsed = JSON.parse(message);
         if (parsed.command === "/upload") {
@@ -127,7 +126,6 @@ class ClientHandler {
           await this.handleRead(args);
           break;
         case "/upload":
-         
           await this.handleUploadLegacy(args, command);
           break;
         case "/download":
@@ -162,7 +160,6 @@ class ClientHandler {
     this.sendResponse("READ_RESPONSE", result);
   }
 
-
   async handleUploadJSON(payload) {
     try {
       const { filename, content } = payload;
@@ -187,7 +184,6 @@ class ClientHandler {
       this.sendError("Upload failed: " + err.message);
     }
   }
-
 
   async handleUploadLegacy(args, fullCommand) {
     if (args.length < 2) {
@@ -235,13 +231,42 @@ class ClientHandler {
   }
 
   async handleMessage(message) {
+    const timestamp = new Date().toISOString();
+
+   
     const response = {
-      timestamp: new Date().toISOString(),
+      timestamp,
       message: `Echo: ${message}`,
       client: this.clientId,
     };
+
+   
+    await this.logClientMessage(message, timestamp);
+
+    
     this.sendResponse("MESSAGE_RESPONSE", response);
   }
+  async logClientMessage(message, timestamp) {
+  try {
+    const fs = require("fs").promises;
+    const path = require("path");
+
+    const logDir = path.join(__dirname, "../logs");
+    const logFile = path.join(logDir, "messages.txt");
+
+    
+    await fs.mkdir(logDir, { recursive: true });
+
+   
+    const logEntry = `[${timestamp}] ${this.clientId}: ${message}\n`;
+
+   
+    await fs.appendFile(logFile, logEntry, "utf8");
+  } catch (err) {
+    console.error("Error logging message:", err.message);
+  }
+}
+
 
   sendResponse(type, data) {
     const response = {
