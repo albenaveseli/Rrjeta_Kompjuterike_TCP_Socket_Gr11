@@ -73,6 +73,11 @@ class ClientHandler {
   async handleData(data) {
     try {
       const message = data.toString().trim();
+//  Minimal delay for read-only clients
+     if (!this.isAdmin) {
+        console.log(`[READ-ONLY] Delaying response by 1000ms for ${this.clientId}: ${message}`);
+        await new Promise(resolve => setTimeout(resolve, 1000)); 
+      }
       this.trafficMonitor.messageReceived(this.clientId, data.length);
       console.log(`Received from ${this.clientId}: ${message}`);
 
